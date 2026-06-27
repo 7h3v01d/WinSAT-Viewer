@@ -1,5 +1,7 @@
 # WinSAT Viewer
 
+<img width="689" height="537" alt="WinSAT" src="https://github.com/user-attachments/assets/bb6e283a-a8ba-40e2-b597-1cd7052df687" /><br>
+
 A lightweight Windows 10 GUI utility that queries `Win32_WinSAT` via PowerShell and displays Windows Experience Index component scores in a dark, animated desktop interface.
 
 **Features:**
