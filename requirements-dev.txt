@@ -1,0 +1,2 @@
+# Dev / build dependencies only — no runtime dependencies required
+pyinstaller
