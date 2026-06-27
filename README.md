@@ -1,19 +1,15 @@
-# WinSAT Viewer (Win32_WinSAT GUI)
+# WinSAT Viewer
 
-A lightweight Windows 10 GUI utility that queries Win32_WinSAT via PowerShell and displays Windows Experience Index component scores in a clean desktop interface.
+A lightweight Windows 10 GUI utility that queries `Win32_WinSAT` via PowerShell and displays Windows Experience Index component scores in a dark, animated desktop interface.
 
-This tool provides:
+**Features:**
 
-- Base score (WinSPRLevel)
-- CPU score
-- Memory score
-- Disk score
-- Graphics score
-- Direct3D score
-- Assessment state
-- Assessment timestamp
-- Ability to trigger winsat formal
-- Raw JSON output viewer
+- Animated arc gauge for the WinSPR base score
+- Animated component score bars (CPU, Memory, Disk, Graphics, D3D)
+- Assessment state and timestamp display
+- Trigger `winsat formal` from the UI
+- Coloured output log (errors, warnings, JSON)
+- Copy raw JSON to clipboard
 - Single-file portable EXE support
 
 ## 📌 Purpose
@@ -34,18 +30,18 @@ No external Python dependencies required beyond the standard library.
 
 The application:
 
-1. Resolves the absolute path to powershell.exe
+1. Resolves the absolute path to `powershell.exe`
 2. Executes:
-```code
+```powershell
 Get-CimInstance -ClassName Win32_WinSAT -Namespace root\cimv2
 ```
 3. Converts output to JSON
-4. Displays structured scores in a Tkinter interface
+4. Displays structured scores with animated bars and a circular base score gauge
 5. Optionally runs:
-```code
+```powershell
 winsat formal
 ```
-to refresh system assessment
+to refresh the system assessment
 
 PowerShell path resolution handles:
 
@@ -54,99 +50,102 @@ PowerShell path resolution handles:
 - PATH fallback
 
 ## 🚀 Running From Source
+
 ```bash
-python winsat_gui.py
+python WinSAT_Viewer.py
 ```
 
 ---
 
 ## 📦 Building a Portable Single-File EXE
-Install PyInstaller
+
+Install PyInstaller:
+
 ```bash
 python -m pip install pyinstaller
 ```
-### Build
+
+Build:
+
 ```bash
-pyinstaller --onefile --windowed --clean --name WinSATViewer winsat_gui.py
+pyinstaller --onefile --windowed --clean --name WinSATViewer WinSAT_Viewer.py
 ```
+
 Output:
-```code
+
+```
 dist/WinSATViewer.exe
 ```
+
 The resulting EXE is portable and does not require Python installed.
 
 ## 🔍 Example Output
 
-Example WinSAT result:
-```code
+```
 CPUScore              : 8.9
 MemoryScore           : 8.9
 DiskScore             : 8.2
 GraphicsScore         : 6.6
 D3DScore              : 9.9
 WinSPRLevel           : 6.6
-WinSATAssessmentState : 1 (Valid/Completed)
+WinSATAssessmentState : Valid / Completed
 ```
+
 The base score equals the lowest subscore.
 
 ## ⚠️ Running WinSAT Assessment
 
-The “Run WinSAT Assessment” button executes:
-```code
-winsat formal
-```
-This may require Administrator privileges.
+The **Run Assessment** button executes `winsat formal`.
 
-If it fails:
-
-- Run the EXE from an elevated (Admin) terminal.
+This may require Administrator privileges. If it fails, run the EXE from an elevated (Admin) terminal.
 
 ## 🛠 Troubleshooting
-## PowerShell Not Found
 
-The application resolves the absolute PowerShell path automatically.<br>
-If it still fails, verify:
+**PowerShell Not Found**
 
-C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+The application resolves the absolute PowerShell path automatically. If it still fails, verify that this exists:
 
-exists.
-
-## No Win32_WinSAT Data Returned
-
-Run manually:
-```code
-winsat formal
 ```
-Then refresh.
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+```
 
-## Antivirus Flags the EXE
+**No Win32_WinSAT Data Returned**
 
-Some AV engines flag PyInstaller single-file builds.
+Run `winsat formal` manually from an elevated terminal, then click Refresh.
 
-If this occurs:
+**Antivirus Flags the EXE**
 
-- Build with --onedir instead of --onefile
+Some AV engines flag PyInstaller single-file builds. If this occurs:
+
+- Build with `--onedir` instead of `--onefile`
 - Or sign the executable
 
 ## 📁 Project Structure
-```code
-winsat_gui.py
+
+```
+WinSAT_Viewer.py
 README.md
 ```
+
 After build:
-```code
+
+```
 dist/
     WinSATViewer.exe
 ```
+
 ## 📈 Potential Future Enhancements
 
 - Automatic bottleneck detection (lowest score highlight)
-- CSV/JSON export
+- CSV / JSON export
 - System hardware snapshot panel
-- Direct WMI querying via pywin32 (remove PowerShell dependency)
-- Modern PySide6 UI variant
+- Direct WMI querying via `pywin32` (remove PowerShell dependency)
+- Score history tracking with trend graphs
 - Signed enterprise build pipeline
 
 ## 📄 License
 
-This project is provided as-is for educational and utility purposes.
+Copyright 2024 Leon Priest  
+GitHub: [7h3v01d](https://github.com/7h3v01d)
+
+Licensed under the [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0).
