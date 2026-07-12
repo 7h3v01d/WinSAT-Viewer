@@ -2,7 +2,10 @@
 
 A lightweight Windows 10 GUI utility that queries `Win32_WinSAT` via PowerShell and displays Windows Experience Index component scores in a dark, animated desktop interface.
 
-**Features:**
+<img width="862" height="672" alt="WinSAT" src="https://github.com/user-attachments/assets/7037fc1a-c73f-4a19-a425-e78d966a37d2" />
+
+
+### Features:
 
 - Dark, GitHub-inspired theme with a teal / amber accent palette
 - Animated circular arc gauge for the WinSPR base score
