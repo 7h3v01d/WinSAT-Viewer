@@ -1,16 +1,17 @@
 # WinSAT Viewer
 
-<img width="689" height="537" alt="WinSAT" src="https://github.com/user-attachments/assets/bb6e283a-a8ba-40e2-b597-1cd7052df687" /><br>
-
 A lightweight Windows 10 GUI utility that queries `Win32_WinSAT` via PowerShell and displays Windows Experience Index component scores in a dark, animated desktop interface.
 
 **Features:**
 
-- Animated arc gauge for the WinSPR base score
-- Animated component score bars (CPU, Memory, Disk, Graphics, D3D)
-- Assessment state and timestamp display
+- Dark, GitHub-inspired theme with a teal / amber accent palette
+- Animated circular arc gauge for the WinSPR base score
+- Animated, glowing component score bars (CPU, Memory, Disk, Graphics, D3D)
+- Live status pill (Ready / Working / etc.) in the header
+- Assessment state and last-run timestamp display
+- Auto-refreshes scores on launch
 - Trigger `winsat formal` from the UI
-- Coloured output log (errors, warnings, JSON)
+- Colour-coded output log (success, warnings, errors, raw JSON)
 - Copy raw JSON to clipboard
 - Single-file portable EXE support
 
@@ -26,7 +27,7 @@ This project restores that visibility through a modern Python GUI.
 - PowerShell (default on Windows 10)
 - Python 3.10+ (for source version)
 
-No external Python dependencies required beyond the standard library.
+No external Python dependencies required — the UI is built entirely on the standard library (`tkinter`).
 
 ## ⚙️ How It Works
 
@@ -38,18 +39,31 @@ The application:
 Get-CimInstance -ClassName Win32_WinSAT -Namespace root\cimv2
 ```
 3. Converts output to JSON
-4. Displays structured scores with animated bars and a circular base score gauge
-5. Optionally runs:
+4. Displays the structured scores in the UI — an animated circular gauge for the base score, animated glowing bars for each component, and a meta panel with assessment state and last-run time
+5. Automatically runs a refresh on startup, and can be re-triggered anytime via the **Refresh Scores** button
+6. Optionally runs:
 ```powershell
 winsat formal
 ```
-to refresh the system assessment
+to refresh the system assessment (via the **Run Assessment** button), then automatically re-queries and updates the UI
 
 PowerShell path resolution handles:
 
 - Standard 64-bit path
 - Sysnative fallback (for 32-bit Python on 64-bit Windows)
 - PATH fallback
+
+## 🎨 Interface Overview
+
+- **Header** — app title and a status pill showing the current state (Ready, Querying…, Running assessment…, etc.)
+- **Base Score Gauge** — a circular animated arc showing the WinSPR base score (the lowest of the component scores)
+- **Meta Panel** — assessment state (e.g. *Valid / Completed*) and the timestamp of the last WinSAT run
+- **Component Scores** — animated bars for CPU, Memory (RAM), Disk (SSD), Graphics, and D3D Gaming, each easing into place with a soft glow
+- **Action Buttons**:
+  - **⟳ Refresh Scores** — re-queries `Win32_WinSAT` and updates the display
+  - **▶ Run Assessment** — runs `winsat formal`, then auto-refreshes
+  - **⎘ Copy JSON** — copies the raw JSON response to the clipboard
+- **Output Log** — a colour-coded panel on the right showing query status, raw JSON, warnings, and errors as they happen
 
 ## 🚀 Running From Source
 
